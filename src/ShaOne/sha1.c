@@ -78,19 +78,11 @@ A million repetitions of "a"
   34AA973C D4C4DAA4 F61EEB2B DBAD2731 6534016F
 */
 
-#define SHA1HANDSOFF (1)
-
-#include <stdint.h>
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include <ShaOne/sha.h>
 
 #include <stdio.h>
-#include <string.h>
-#include <sha/sha.h>
 
-void SHA1_Transform(uint32_t state[5], const uint8_t buffer[64]);
+#define SHA1HANDSOFF (1)
 
 #define rol(value, bits) (((value) << (bits)) | ((value) >> (32 - (bits))))
 
