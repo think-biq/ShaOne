@@ -4,7 +4,7 @@ FILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 PROJECT_DIR := $(shell dirname $(FILE_PATH))
 PROJECT_NAME := $(notdir $(patsubst %/,%,$(dir $(FILE_PATH))))
 BUILD_DIR := "$(PROJECT_DIR)/staging"
-BUILD_TEST_FLAG := -D ShaOne_WithTest=0
+WITH_TEST := 1
 
 default: all
 
@@ -18,13 +18,13 @@ clean:
 
 prepare:
 	@mkdir -p "$(BUILD_DIR)"
-	@(cd $(BUILD_DIR) && cmake ${BUILD_TEST_FLAG} ..)
+	@(cd $(BUILD_DIR) && cmake -D ShaOne_WithTest=${WITH_TEST} ..)
 
 build:
 	@make -C "$(BUILD_DIR)"
 
 run-test:
-	@(test -f "$(BUILD_DIR)/ShaOneTest" && "$(BUILD_DIR)/./ShaOneTest" ) || echo Skipping test ...
+	@(([ ${WITH_TEST} = 1 ] && [ -f "$(BUILD_DIR)/ShaOneTest" ]) && "$(BUILD_DIR)/./ShaOneTest")|| echo Skipping test ...
 
 build-run: build run-test
 
