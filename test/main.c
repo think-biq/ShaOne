@@ -9,44 +9,33 @@
 
 #include <ShaOne/sha.h>
 
-static const char* SunshineHaiku = "Inspiring Hope.\nThrough the glistening sunshine.\nA new day to laugh again.";
-
-char* GenerateSunshine()
+int TestSha()
 {
-	char* Copy = strdup(SunshineHaiku);
-	return Copy;
-}
+	const char* Secret = "CAFEBABECAFEBABFECAFEBABE";
+	const size_t SecretLength = strlen(Secret);
 
-int TestSunshine()
-{
-	const char* Expected = SunshineHaiku;
-	char* Sunshine = GenerateSunshine();
+	uint8_t Expected[SHA_DIGEST_LENGTH] = {
+		208, 8, 154, 24, 43, 91, 35, 233, 25, 105,
+		250, 23, 20, 76, 154, 131, 124, 59, 146, 140
+	};
 
-	int Passed = Assert(0, "GenerateSunshine", TESTLY_EXIT_ON_FAIL,
-		Expected, Sunshine, 
-		"Expected %s, got %s.", Expected, Sunshine
+    uint8_t KeyBuffer[SHA_DIGEST_LENGTH];
+    {
+	    SHA_CTX KeyContext;
+	    SHA1_Init(&KeyContext);
+	    SHA1_Update(&KeyContext, Secret, SecretLength);
+	    SHA1_Final(KeyBuffer, &KeyContext);
+	}
+
+	int Passed = Assert(SHA_DIGEST_LENGTH, "SecretToSha1", TESTLY_EXIT_ON_FAIL,
+		Expected, KeyBuffer, 
+		"Expected %s, got %s.", Expected, KeyBuffer
 	);
-
-	free(Sunshine);
 
 	return Passed;
 }
 
-int TestRainAndFail()
-{
-	Fail("Rain", TESTLY_EXIT_ON_FAIL, "Missing umbrella.");
-
-	int Expected = 23;
-	int Rain = 42;
-
-	return Assert(sizeof(Expected), "RainStorm", TESTLY_EXIT_ON_FAIL,
-		&Expected, &Rain,
-		"Expected %i, got %i.", Expected, Rain
-	);
-}
-
 int main(void)
 {
-	RUN_TEST(TestRainAndFail);
-	RUN_TEST(TestSunshine);
+	RUN_TEST(TestSha);
 }
