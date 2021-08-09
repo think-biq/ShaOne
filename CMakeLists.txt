@@ -11,10 +11,12 @@ include_directories (
 	"${PROJECT_SOURCE_DIR}/third-party")
 add_library(ShaOne ${ShaOnce_SRC} ${ShaOne_ThirdParty_SRC})
 
-add_subdirectory(third-party/testly)
-include_directories(third-party/testly/src)
-
 if(ShaOne_WithTest)
+	if (NOT Testly)
+		add_subdirectory(third-party/testly)
+		include_directories(third-party/testly/src)
+	endif()
+
 	file(GLOB ShaOne_Test_SRC	
 		"${PROJECT_SOURCE_DIR}/test/*.c"
 		"${PROJECT_SOURCE_DIR}/test/**/*.c")
