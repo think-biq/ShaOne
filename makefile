@@ -24,7 +24,8 @@ build:
 	@make -C "$(BUILD_DIR)"
 
 run-test:
-	@(([ ${WITH_TEST} = 1 ] && [ -f "$(BUILD_DIR)/ShaOneTest" ]) && "$(BUILD_DIR)/./ShaOneTest")|| echo Skipping test ...
+	@(([ ${WITH_TEST} = 1 ] && [ -f "$(BUILD_DIR)/ShaOneTest" ]) \
+		&& "$(BUILD_DIR)/./ShaOneTest")|| echo Skipping test ...
 
 build-run: build run-test
 

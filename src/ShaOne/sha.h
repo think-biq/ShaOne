@@ -2,7 +2,7 @@
 * Public api for steve reid's public domain SHA-1 implementation.
 * This file is in the public domain / CC0 (if applicable).
 * 
-* Thanks to Bob Liu.
+* Public API created by Bob Liu under MIT License.
 */
 
 #ifndef SHAONE_H_
