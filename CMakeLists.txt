@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.19)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.20)
 
 project (ShaOne)
 
@@ -10,6 +10,10 @@ include_directories (
 	"${PROJECT_SOURCE_DIR}/src"
 	"${PROJECT_SOURCE_DIR}/third-party")
 add_library(ShaOne ${ShaOnce_SRC} ${ShaOne_ThirdParty_SRC})
+target_include_directories(
+    ShaOne PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>"
+)
 
 if(ShaOne_WithTest)	
 	string(
@@ -22,14 +26,15 @@ if(ShaOne_WithTest)
 		add_subdirectory(third-party/testly)
 		include_directories(third-party/testly/src)
 	else()
-		if (NOT Testly_DIR)
-			message(FATAL_ERROR "Could not find Testly in 'Testly_DIR'.")
-		endif()
+		find_package(Testly)
 	endif()
 
 	file(GLOB ShaOne_Test_SRC	
 		"${PROJECT_SOURCE_DIR}/test/*.c"
 		"${PROJECT_SOURCE_DIR}/test/**/*.c")
 	add_executable (ShaOneTest ${ShaOne_Test_SRC})
+	target_include_directories(ShaOneTest PUBLIC
+	  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
+	)
 	target_link_libraries(ShaOneTest ShaOne Testly)
 endif()
