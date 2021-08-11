@@ -1,6 +1,12 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.20)
 
 project (ShaOne)
+	
+string(
+    COMPARE EQUAL
+    "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    IS_STANDALON_PROJECT
+)
 
 file (GLOB ShaOnce_SRC
 	"${PROJECT_SOURCE_DIR}/src/**/*.c")
@@ -15,13 +21,22 @@ target_include_directories(
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>"
 )
 
-if(ShaOne_WithTest)	
-	string(
-	    COMPARE EQUAL
-	    "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
-	    IS_STANDALON_PROJECT
-	)
+install(
+    TARGETS ShaOne
+    EXPORT "${TARGETS_EXPORT_NAME}"
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+)
 
+install(
+    DIRECTORY "${PROJECT_SOURCE_DIR}/src"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    FILES_MATCHING PATTERN "*.h"
+)
+
+if(ShaOne_WithTest)
 	if (IS_STANDALON_PROJECT)
 		add_subdirectory(third-party/testly)
 		include_directories(third-party/testly/src)
