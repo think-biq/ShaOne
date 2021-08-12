@@ -17,11 +17,9 @@
 
 /** SHA-1 Context */
 typedef struct {
-    uint32_t state[5];
-    /**< Context state */
-    uint32_t count[2];
-    /**< Counter       */
-    uint8_t buffer[64]; /**< SHA-1 buffer  */
+    uint32_t state[5]; /**< Context state */
+    uint32_t count[2]; /**< Counter */
+    uint8_t buffer[64]; /**< SHA-1 buffer */
 } SHA1_CTX;
 
 /** SHA-1 Context (OpenSSL compat) */
