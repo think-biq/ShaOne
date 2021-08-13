@@ -26,12 +26,12 @@ int TestSha()
 		250, 23, 20, 76, 154, 131, 124, 59, 146, 140
 	};
 
-    uint8_t KeyBuffer[SHA_DIGEST_LENGTH];
-    {
-	    SHA_CTX KeyContext;
-	    SHA1_Init(&KeyContext);
-	    SHA1_Update(&KeyContext, Secret, SecretLength);
-	    SHA1_Final(KeyBuffer, &KeyContext);
+	uint8_t KeyBuffer[SHA_DIGEST_LENGTH];
+	{
+		SHA_CTX KeyContext;
+		SHA1_Init(&KeyContext);
+		SHA1_Update(&KeyContext, Secret, SecretLength);
+		SHA1_Final(KeyBuffer, &KeyContext);
 	}
 
 	int Passed = Assert(SHA_DIGEST_LENGTH, "SecretToSha1", TESTLY_EXIT_ON_FAIL,
@@ -52,16 +52,29 @@ int TestHash()
 		250, 23, 20, 76, 154, 131, 124, 59, 146, 140
 	};
 
-    uint8_t Hash[SHA_DIGEST_LENGTH];
-	CreateSha1Hash(Hash, Secret, SecretLength);
+	int Passed;
+	uint8_t Hash[SHA_DIGEST_LENGTH];
 
-	char* HexHash = Hexify(Hash, SHA_DIGEST_LENGTH);
-	printf("HEX: %s\n", HexHash);
+	{
+		CreateSha1Hash(Hash, Secret, SecretLength);
+		Passed = Assert(SHA_DIGEST_LENGTH, "CreateSha1Hash", TESTLY_EXIT_ON_FAIL,
+			Expected, Hash, 
+			"Expected %s, got %s.", Expected, Hash
+		);
+	}
 
-	int Passed = Assert(SHA_DIGEST_LENGTH, "CreateSha1Hash", TESTLY_EXIT_ON_FAIL,
-		Expected, Hash, 
-		"Expected %s, got %s.", Expected, Hash
-	);
+	{
+		char* HashHex = Hexify(Hash, SHA_DIGEST_LENGTH);
+		char* HashExpected = Hexify(Expected, SHA_DIGEST_LENGTH);
+		
+		Passed = Assert(0, "Hexify", TESTLY_EXIT_ON_FAIL,
+			HashExpected, HashHex, 
+			"Expected %s, got %s.", HashExpected, HashHex
+		);
+
+		free(HashExpected);
+		free(HashHex);
+	}
 
 	return Passed;
 }
