@@ -1,3 +1,9 @@
+/**
+* Copyright (c) 2021 blurryroots innovation qanat OÜ
+*
+* All rights reserved.
+*/
+
 #undef TESTLY_ASSERT_DISABLED
 #include <testly/assert.h>
 #include <testly/run.h>
@@ -8,6 +14,7 @@
 #include <string.h>
 
 #include <ShaOne/sha.h>
+#include <ShaOne/hash.h>
 
 int TestSha()
 {
@@ -35,7 +42,32 @@ int TestSha()
 	return Passed;
 }
 
+int TestHash()
+{
+	const char* Secret = "CAFEBABECAFEBABFECAFEBABE";
+	const size_t SecretLength = strlen(Secret);
+
+	uint8_t Expected[SHA_DIGEST_LENGTH] = {
+		208, 8, 154, 24, 43, 91, 35, 233, 25, 105,
+		250, 23, 20, 76, 154, 131, 124, 59, 146, 140
+	};
+
+    uint8_t Hash[SHA_DIGEST_LENGTH];
+	CreateSha1Hash(Hash, Secret, SecretLength);
+
+	char* HexHash = Hexify(Hash, SHA_DIGEST_LENGTH);
+	printf("HEX: %s\n", HexHash);
+
+	int Passed = Assert(SHA_DIGEST_LENGTH, "CreateSha1Hash", TESTLY_EXIT_ON_FAIL,
+		Expected, Hash, 
+		"Expected %s, got %s.", Expected, Hash
+	);
+
+	return Passed;
+}
+
 int main(void)
 {
 	RUN_TEST(TestSha);
+	RUN_TEST(TestHash);
 }
