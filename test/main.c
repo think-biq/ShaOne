@@ -34,8 +34,7 @@ int TestSha()
 		SHA1_Final(KeyBuffer, &KeyContext);
 	}
 
-	int Passed = Assert(SHA_DIGEST_LENGTH, "SecretToSha1", TESTLY_EXIT_ON_FAIL,
-		Expected, KeyBuffer, 
+	int Passed = Check("SecretToSha1", SHA_DIGEST_LENGTH, Expected, KeyBuffer, 
 		"Expected %s, got %s.", Expected, KeyBuffer
 	);
 
@@ -57,8 +56,7 @@ int TestHash()
 
 	{
 		CreateSha1Hash(Hash, Secret, SecretLength);
-		Passed = Assert(SHA_DIGEST_LENGTH, "CreateSha1Hash", TESTLY_EXIT_ON_FAIL,
-			Expected, Hash, 
+		Passed = Check("CreateSha1Hash", SHA_DIGEST_LENGTH, Expected, Hash, 
 			"Expected %s, got %s.", Expected, Hash
 		);
 	}
@@ -67,8 +65,7 @@ int TestHash()
 		char* HashHex = Hexify(Hash, SHA_DIGEST_LENGTH);
 		char* HashExpected = Hexify(Expected, SHA_DIGEST_LENGTH);
 		
-		Passed = Assert(0, "Hexify", TESTLY_EXIT_ON_FAIL,
-			HashExpected, HashHex, 
+		Passed = Check("Hexify", 0, HashExpected, HashHex, 
 			"Expected %s, got %s.", HashExpected, HashHex
 		);
 
