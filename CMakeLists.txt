@@ -1,6 +1,10 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.20)
 
 project (ShaOne)
+
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE PATH "" FORCE)
+endif()
 	
 string(
     COMPARE EQUAL
