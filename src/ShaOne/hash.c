@@ -16,10 +16,12 @@ char* Hexify(const uint8_t* Buffer, size_t Count)
     }
 
     char* Hash = calloc(1, Count*2+1);
+    Hash[0] = '\0';
     for (size_t Index = 0; Index < Count; ++Index)
     {
         char Hex[3];
         snprintf(Hex, 3, "%02x", Buffer[Index]);
+        Hex[2] = '\0';
         strcat(Hash, Hex);
     }
 

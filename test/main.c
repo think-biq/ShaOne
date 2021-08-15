@@ -76,8 +76,42 @@ int TestHash()
 	return Passed;
 }
 
+int TestHexify()
+{
+	int Passed = 1;
+
+	{
+		const char* Expected = "0810";
+		const uint8_t Buffer[2] = { 8, 16 };
+
+		char* Hex = Hexify(Buffer, 2);
+
+		Passed &= Check("Hexify", 0, Expected, Hex, 
+			"Expected %s, got %s.", Expected, Hex
+		);
+
+		free(Hex);
+	}
+
+	{
+		const char* Expected = "48616e73";
+		const uint8_t* Buffer = "Hans";
+
+		char* Hex = Hexify(Buffer, 4);
+
+		Passed &= Check("Hexify", 0, Expected, Hex, 
+			"Expected %s, got %s.", Expected, Hex
+		);
+
+		free(Hex);
+	}
+
+	return Passed;
+}
+
 int main(void)
 {
 	RUN_TEST(TestSha);
 	RUN_TEST(TestHash);
+	RUN_TEST(TestHexify);
 }
