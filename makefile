@@ -7,7 +7,7 @@ BUILD_DIR := "$(PROJECT_DIR)/staging"
 WITH_TEST := 1
 GRIND = valgrind
 GRIND_OPTS = --show-leak-kinds=all --leak-check=full --track-origins=yes -v
-BUILD_MODE = Debug
+BUILD_MODE = Release
 
 default: all
 

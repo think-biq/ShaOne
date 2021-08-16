@@ -3,6 +3,31 @@
 Minimalistic sha1 implementation. Public interface based on work by Bob Liu
 (MIT license), and public domain implementation by Steve Reid.
 
+## Setup
+
+Clone the repository recursively:
+
+```bash
+git clone --recursive https://github.com/think-biq/ShaOne .
+```
+
+To build the library:
+
+```bash
+make
+```
+
+Will generate the build environment to ./staging through cmake, and builds the
+library.
+
+To run the tests:
+
+```bash
+make run-test
+```
+
+Will build a test executable using the [testly](https://github.com/think-biq/testly) test library.
+
 ## Modules
 
 ### Hash
