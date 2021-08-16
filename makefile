@@ -21,6 +21,8 @@ clean:
 
 prepare:
 	@mkdir -p "$(BUILD_DIR)"
+
+stage: prepare
 	@(cd $(BUILD_DIR) && cmake -D ShaOne_WithTest=${WITH_TEST} -D CMAKE_BUILD_TYPE=${BUILD_MODE} ..)
 
 build:
@@ -42,7 +44,11 @@ clean-docs:
 
 build-run: build run-test
 
-all: prepare build-run
+all: stage build-run
+
+icon: prepare
+	convert -background white -fill black \
+	  -size 128x64 -gravity center label:".:* ShaOne *:." "$(PROJECT_DIR)/icon.png"
 
 grind:
 	mkdir -p log
