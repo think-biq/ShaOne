@@ -28,6 +28,14 @@ make run-test
 
 Will build a test executable using the [testly](https://github.com/think-biq/testly) test library.
 
+To generate doxygen documentation:
+
+```bash
+make docs
+```
+
+Will build doxygen html output and put it into docs/html.
+
 ## Modules
 
 ### Hash
