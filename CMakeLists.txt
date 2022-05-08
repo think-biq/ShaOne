@@ -12,18 +12,23 @@ string(
     IS_STANDALON_PROJECT
 )
 
+option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+
 file (GLOB ShaOnce_SRC
 	"${PROJECT_SOURCE_DIR}/src/**/*.c")
-file (GLOB ShaOne_ThirdParty_SRC
-	"${PROJECT_SOURCE_DIR}/third-party/**/*.c")
 include_directories (
-	"${PROJECT_SOURCE_DIR}/src"
-	"${PROJECT_SOURCE_DIR}/third-party")
-add_library(ShaOne ${ShaOnce_SRC} ${ShaOne_ThirdParty_SRC})
+	"${PROJECT_SOURCE_DIR}/src")
+if(BUILD_SHARED_LIBS)
+add_library(ShaOne SHARED ${ShaOnce_SRC})
+else()
+add_library(ShaOne ${ShaOnce_SRC})
+endif()
 target_include_directories(
     ShaOne PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>"
 )
+#target_link_libraries(ShaOne bsd)
+set_property(TARGET ShaOne PROPERTY C_STANDARD 11)
 
 install(
     TARGETS ShaOne
