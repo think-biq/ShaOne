@@ -46,12 +46,12 @@ install(
 )
 
 if(ShaOne_WithTest)
-	if (IS_STANDALON_PROJECT)
-		add_subdirectory(third-party/testly)
-		include_directories(third-party/testly/src)
-	else()
-		find_package(Testly)
-	endif()
+	#if (IS_STANDALON_PROJECT)
+		add_subdirectory(lib/testly)
+		#include_directories(third-party/testly/src)
+	#else()
+	#	find_package(Testly)
+	#endif()
 
 	file(GLOB ShaOne_Test_SRC	
 		"${PROJECT_SOURCE_DIR}/test/*.c"
@@ -59,6 +59,7 @@ if(ShaOne_WithTest)
 	add_executable (ShaOneTest ${ShaOne_Test_SRC})
 	target_include_directories(ShaOneTest PUBLIC
 	  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
+	  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/testly/src>"
 	)
 	target_link_libraries(ShaOneTest ShaOne Testly)
 endif()
