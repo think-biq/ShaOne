@@ -32,7 +32,6 @@ char* Hexify(const uint8_t* Buffer, size_t Count)
 void CreateSha1Hash(uint8_t Hash[SHA1_DIGEST_SIZE], const void* Data, size_t DataSize)
 {
     SHA_CTX KeyContext;
-    uint8_t KeyBuffer[SHA_DIGEST_LENGTH];
 
     SHA1_Init(&KeyContext);
     SHA1_Update(&KeyContext, Data, DataSize);
